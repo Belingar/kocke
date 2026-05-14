@@ -1,0 +1,264 @@
+/* ==========================================
+   Le Grand Dé — style.css (index page)
+   Palette: near-black bg, gold accents, champagne text
+   ========================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  #E2C97E;
+  --gold-dark:   #8A6825;
+  --black:       #0C0C0E;
+  --dark:        #141418;
+  --card:        #18181E;
+  --card-border: #2A2A34;
+  --text:        #E8E0D0;
+  --text-muted:  #8A8478;
+  --input-bg:    #1E1E26;
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ---- Stars background ---- */
+.stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.star {
+  position: absolute;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: 0.1; transform: scale(0.8); }
+  to   { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* ---- Header ---- */
+.site-header {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 48px 20px 20px;
+}
+.logo-crest {
+  font-size: 2rem;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+@keyframes pulse-gold {
+  0%,100% { text-shadow: 0 0 8px var(--gold); opacity: 0.85; }
+  50%      { text-shadow: 0 0 20px var(--gold-light); opacity: 1; }
+}
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.logo-sub {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+/* ---- Card ---- */
+main { position: relative; z-index: 1; padding: 20px 16px 60px; }
+
+.kartica {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  padding: 40px 40px 36px;
+  box-shadow: 0 0 60px rgba(201,168,76,0.08), 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+}
+/* Corner ornaments */
+.kartica::before,
+.kartica::after {
+  content: '✦';
+  position: absolute;
+  color: var(--gold-dark);
+  font-size: 1rem;
+}
+.kartica::before { top: 14px; left: 18px; }
+.kartica::after  { top: 14px; right: 18px; }
+
+/* ---- Error ---- */
+.napaka {
+  background: rgba(180,60,60,0.12);
+  border: 1px solid rgba(180,60,60,0.4);
+  color: #E07070;
+  padding: 12px 18px;
+  border-radius: 3px;
+  margin-bottom: 28px;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Section titles ---- */
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+/* ---- Player blocks ---- */
+.igralci-vrstica {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.igralec-blok {
+  flex: 1;
+  min-width: 180px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.player-emblem {
+  width: 44px; height: 44px;
+  border: 1px solid var(--gold-dark);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.emblem-1 { border-color: var(--gold);      color: var(--gold-light); }
+.emblem-2 { border-color: #AEAEAE;           color: #D0D0D0; }
+.emblem-3 { border-color: #9C6235;           color: #C08050; }
+
+.guest-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ---- Inputs ---- */
+.vnosno-polje {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.vnosno-polje:focus {
+  border-color: var(--gold-dark);
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15);
+}
+.vnosno-polje::placeholder { color: var(--text-muted); }
+.select-field { cursor: pointer; }
+.select-field option { background: var(--dark); }
+
+/* ---- Divider ---- */
+.divider {
+  text-align: center;
+  margin: 20px 0 28px;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+}
+
+/* ---- Settings row ---- */
+.nastavitve-vrstica {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.nastavitev-blok {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- Buttons ---- */
+.gumbi-vrstica {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.gumbi-desno { display: flex; gap: 10px; }
+
+.gumb {
+  display: inline-block;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 13px 30px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.gumb-primary {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+  color: var(--black);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+}
+.gumb-primary:hover {
+  box-shadow: 0 6px 30px rgba(201,168,76,0.45);
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.gumb-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--card-border);
+  padding: 12px 20px;
+}
+.gumb-secondary:hover {
+  border-color: var(--gold-dark);
+  color: var(--gold);
+}
+
+@media (max-width: 620px) {
+  .kartica { padding: 28px 20px 24px; }
+  .gumbi-vrstica { flex-direction: column; align-items: stretch; }
+  .gumbi-desno { justify-content: center; }
+  .gumb { text-align: center; }
+}

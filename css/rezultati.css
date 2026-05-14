@@ -1,0 +1,208 @@
+/* ==========================================
+   Le Grand Dé — rezultati.css (results page)
+   ========================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #C9A84C;
+  --gold-light: #E2C97E;
+  --gold-dark:  #8A6825;
+  --silver:     #AEAEAE;
+  --bronze:     #A0522D;
+  --black:      #0C0C0E;
+  --card:       #18181E;
+  --card-b:     #2A2A34;
+  --text:       #E8E0D0;
+  --muted:      #8A8478;
+}
+
+html, body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 0%, #1a1608 0%, var(--black) 60%);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+canvas#sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.site-header {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+.logo-crest { font-size: 2rem; color: var(--gold); margin-bottom: 6px; }
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+.logo-sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.45em;
+  color: var(--muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+/* ---- Podium scene ---- */
+.podium-scene {
+  position: relative; z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  padding: 40px 20px 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.podium-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+/* Guest cards */
+.guest-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 18px 20px;
+  background: var(--card);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 230px;
+  margin-bottom: 0;
+  position: relative;
+  border: 1px solid var(--card-b);
+}
+.card-gold  { border-color: var(--gold-dark); box-shadow: 0 0 40px rgba(201,168,76,0.18); }
+.card-silver{ border-color: #555; }
+.card-bronze{ border-color: #6B3A1F; }
+
+.medal {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.medal.gold   { background: linear-gradient(135deg, #8A6825, #E2C97E, #8A6825); color: #0C0C0E; box-shadow: 0 0 20px rgba(201,168,76,0.5); }
+.medal.silver { background: linear-gradient(135deg, #888, #DDD, #888); color: #111; }
+.medal.bronze { background: linear-gradient(135deg, #6B3A1F, #C08050, #6B3A1F); color: #111; }
+
+.guest-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--text);
+}
+.card-gold .guest-name { color: var(--gold-light); }
+
+.guest-score {
+  font-size: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  color: var(--gold);
+}
+.guest-score span { font-size: 0.7rem; color: var(--muted); margin-left: 4px; }
+
+/* Laurels for 1st */
+.laurels {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+  opacity: 0.8;
+  animation: sway 4s ease-in-out infinite;
+}
+@keyframes sway {
+  0%,100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(2deg); }
+}
+
+/* Pedestals */
+.pedestal {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 3px 3px 0 0;
+  padding-bottom: 10px;
+  position: relative;
+}
+.ped-gold   { height: 100px; background: linear-gradient(180deg, #2A2208, #1A1508); border: 1px solid var(--gold-dark); border-bottom: none; }
+.ped-silver { height: 70px;  background: linear-gradient(180deg, #222226, #161618); border: 1px solid #3A3A40; border-bottom: none; }
+.ped-bronze { height: 50px;  background: linear-gradient(180deg, #1E1208, #130C04); border: 1px solid #5A3015; border-bottom: none; }
+
+.ped-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  position: absolute;
+  bottom: 10px;
+}
+.ped-gold .ped-label { color: var(--gold); }
+
+/* Slot sizing */
+.slot-1 { z-index: 2; transform: none; }
+.slot-2 { transform: translateY(20px); }
+.slot-3 { transform: translateY(40px); }
+
+/* Action bar */
+.action-bar {
+  position: relative; z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px 60px;
+  margin-top: 0;
+}
+.gumb {
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 15px 44px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.gumb-primary {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+  color: var(--black);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+}
+.gumb-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+}
+
+@media (max-width: 560px) {
+  .podium-scene { flex-direction: column; align-items: center; }
+  .slot-2, .slot-3 { transform: none; }
+  .pedestal { height: 40px !important; }
+  .guest-card { max-width: 300px; }
+}

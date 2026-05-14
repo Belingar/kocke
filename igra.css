@@ -1,0 +1,225 @@
+/* ==========================================
+   Le Grand Dé — igra.css (game page)
+   ========================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #C9A84C;
+  --gold-light: #E2C97E;
+  --gold-dark:  #8A6825;
+  --black:      #0C0C0E;
+  --dark:       #141418;
+  --card:       #18181E;
+  --card-b:     #2A2A34;
+  --text:       #E8E0D0;
+  --muted:      #8A8478;
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
+
+/* header */
+.site-header {
+  text-align: center;
+  padding: 30px 20px 16px;
+  border-bottom: 1px solid var(--card-b);
+  margin-bottom: 20px;
+}
+.logo-crest { font-size: 1.2rem; color: var(--gold); margin-bottom: 4px; }
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+
+/* round banner */
+.runda-info {
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.runda-info.finale { color: var(--gold); }
+.runda-num { color: var(--gold-light); font-weight: 500; }
+
+/* arena */
+.arena {
+  display: flex;
+  gap: 16px;
+  padding: 0 16px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+  background: var(--card);
+  border: 1px solid var(--card-b);
+  border-radius: 4px;
+  padding: 22px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.player-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.score-display {
+  text-align: center;
+  line-height: 1;
+}
+.score-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--gold);
+}
+.score-max {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+/* track */
+.track-wrap {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+.track-finish {
+  position: absolute;
+  right: 0;
+  font-size: 1.1rem;
+  z-index: 2;
+}
+.track {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  background: linear-gradient(90deg, #1a1a24, #252530);
+  border-radius: 9px;
+  border: 1px solid var(--card-b);
+  overflow: visible;
+}
+/* lane dashes */
+.track::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(201,168,76,0.12) 8px, rgba(201,168,76,0.12) 16px);
+  transform: translateY(-50%);
+}
+
+.token {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 32px;
+  transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 3;
+}
+.token svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+
+/* history */
+.history-box {
+  max-height: 110px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dark) transparent;
+}
+.povijest { width: 100%; border-collapse: collapse; }
+.povijest tr td {
+  font-size: 0.72rem;
+  padding: 3px 6px;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.r-label { text-transform: uppercase; letter-spacing: 0.1em; }
+.r-score { text-align: right; color: var(--gold); font-weight: 500; }
+
+/* dice images */
+.dice-area {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 52px;
+  align-items: center;
+}
+
+.kocka-slika {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  border: 1px solid var(--gold-dark);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 8px rgba(201,168,76,0.15);
+  animation: die-appear 0.35s ease both;
+  image-rendering: auto;
+}
+.kocka-idle {
+  opacity: 0.5;
+  border-color: var(--card-b);
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes die-appear {
+  from { opacity: 0; transform: scale(0.6) rotate(-15deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* action bar */
+.action-bar {
+  display: flex;
+  justify-content: center;
+  padding: 16px 16px 48px;
+}
+.gumb {
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 15px 42px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.gumb-primary {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+  color: var(--black);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+}
+.gumb-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+}
