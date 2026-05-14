@@ -26,18 +26,18 @@ http://localhost/luxury-dice/index.php
 ## Struktura datotek
 ```
 luxury-dice/
-├── index.php          ← Guest registry & game settings
-├── igra.php           ← The roll — live game page
-├── rezultati.php      ← Honours podium
+├── index.php          ← Registracija gostov in nastavitve igre
+├── igra.php           ← Met kocke — stran z igro v živo
+├── rezultati.php      ← Stopničke in časti
 │
 ├── css/
-│   ├── style.css      ← Index page styles
-│   ├── igra.css       ← Game page styles
-│   └── rezultati.css  ← Results page styles
+│   ├── style.css      ← Stili za začetno stran
+│   ├── igra.css       ← Stili za igralno stran
+│   └── rezultati.css  ← Stili za stran z rezultati
 │
 └── js/
-    ├── dialogi.js     ← SweetAlert modals (rules, credits)
-    └── sparkles.js    ← Gold particle animation on results page
+├── dialogi.js     ← SweetAlert modalna okna (pravila, zasluge)
+└── sparkles.js    ← Animacija zlatih delcev na strani z rezultati
 ```
 
 ---
