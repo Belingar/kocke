@@ -24,7 +24,7 @@ http://localhost/luxury-dice/index.php
 ---
 
 ## Struktura datotek
-
+```
 luxury-dice/
 ├── index.php          ← Guest registry & game settings
 ├── igra.php           ← The roll — live game page
