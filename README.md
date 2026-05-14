@@ -1,103 +1,85 @@
 # 🎲 Le Grand Dé — Prestige Roll
 
-A luxury-themed PHP dice-race game. Three guests compete across multiple rounds of dice rolls; the one who accumulates the most points claims the honour of the evening.
-
-Inspired by the original [Dice Race](https://github.com/leonilc07/dirka) project, redesigned with a prestige aesthetic: dark backgrounds, gold accents, champagne typography, and an elegant podium results screen.
+PHP igra metanja kocke s tematiko prestiža in luksuza. Trije gosti tekmujejo v več krogih metanja kocke; tisti, ki zbere največ točk, si prisluži čast večera.
 
 ---
 
-## Requirements
+## Zahteve
 
-- XAMPP (Apache + PHP)
-- Browser (Chrome, Firefox, Edge…)
+* **XAMPP** (Apache + PHP)
+* **Brskalnik** (Chrome, Firefox, Edge…)
 
 ---
 
-## Installation
+## Namestitev
 
-1. Clone into your `htdocs` folder:
-
-```
+1. Kloniraj projekt v svojo `htdocs` mapo:
 C:\xampp\htdocs\luxury-dice\
-```
 
-2. Start **Apache** in XAMPP Control Panel.
-
-3. Open your browser and navigate to:
-
-```
+2. Zaženi **Apache** v XAMPP nadzorni plošči.
+3. Odpri brskalnik in obišči:
 http://localhost/luxury-dice/index.php
-```
+
 
 ---
 
-## File Structure
+## Struktura datotek
 
-```
 luxury-dice/
-├── index.php          ← Guest registry & game settings
-├── igra.php           ← The roll — live game page
-├── rezultati.php      ← Honours podium
+├── index.php          ← Registracija gostov in nastavitve igre
+├── igra.php           ← Met kocke — stran z igro v živo
+├── rezultati.php      ← Stopničke in časti
 │
 ├── css/
-│   ├── style.css      ← Index page styles
-│   ├── igra.css       ← Game page styles
-│   └── rezultati.css  ← Results page styles
+│   ├── style.css      ← Stili za začetno stran
+│   ├── igra.css       ← Stili za igralno stran
+│   └── rezultati.css  ← Stili za stran z rezultati
 │
 └── js/
-    ├── dialogi.js     ← SweetAlert modals (rules, credits)
-    └── sparkles.js    ← Gold particle animation on results page
-```
+├── dialogi.js     ← SweetAlert modalna okna (pravila, zasluge)
+└── sparkles.js    ← Animacija zlatih delcev na strani z rezultati
+
 
 ---
 
-## How It Works
+## Kako deluje
 
-### Page 1 — Guest Registry
-- Enter names for 3 guests
-- Choose dice count (1–6) and number of rounds (1–20)
-- Click **Begin the Game**
+### 1. stran — Registracija gostov
+* Vnesite imena za 3 goste.
+* Izberite število kock (1–6) in število krogov (1–20).
+* Kliknite **Begin the Game** (Začni igro).
 
-### Page 2 — The Roll
-- Each round: click **Roll Round X**
-- PHP rolls dice for all three guests and displays results
-- Elegant car tokens move along the track
-- Round history is logged per guest
-- When all rounds are complete: **View Final Results**
+### 2. stran — Met kocke
+* Vsak krog: kliknite **Roll Round X** (Vrzi za krog X).
+* PHP vrže kocke za vse tri goste in prikaže rezultate.
+* Elegantni avtomobilski žetoni se premikajo po progi.
+* Zgodovina krogov se beleži za vsakega gosta posebej.
+* Ko so vsi krogi zaključeni: **View Final Results** (Ogled končnih rezultatov).
 
-### Page 3 — Honours
-- Guests placed on a tiered podium (gold / silver / bronze)
-- Gold particle animation fills the screen
-- Ties broken randomly
-- **Play Again** resets the session
+### 3. stran — Časti
+* Gosti se razvrstijo na stopničke (zlata / srebrna / bronasta).
+* Animacija zlatih delcev napolni zaslon.
+* Izenačeni rezultati se razrešijo naključno.
+* **Play Again** (Igraj ponovno) ponastavi sejo.
 
 ---
 
-## Session Variables
+## Sejne spremenljivke (Session Variables)
 
-| Variable | Contents |
+| Spremenljivka | Vsebina |
 |---|---|
-| `$_SESSION['ime1']` | Guest 1 name |
-| `$_SESSION['kocke']` | Dice per round |
-| `$_SESSION['runde']` | Total rounds |
-| `$_SESSION['tocke1']` | Guest 1 cumulative score |
-| `$_SESSION['trenutna_runda']` | Current round number |
-| `$_SESSION['zgodovina1']` | Guest 1 round-by-round history |
+| `$_SESSION['ime1']` | Ime 1. gosta |
+| `$_SESSION['kocke']` | Število kock na krog |
+| `$_SESSION['runde']` | Skupno število krogov |
+| `$_SESSION['tocke1']` | Skupne točke 1. gosta |
+| `$_SESSION['trenutna_runda']` | Številka trenutnega kroga |
+| `$_SESSION['zgodovina1']` | Zgodovina metov po krogih za 1. gosta |
 
 ---
 
-## Technologies
+## Tehnologije
 
-| Technology | Use |
-|---|---|
-| PHP | Game logic, sessions, dice rolls |
-| HTML / CSS | Structure & luxury styling |
-| JavaScript | SweetAlert dialogs, particle effects |
-| Google Fonts | Cormorant Garamond + Montserrat |
-
----
-
-## Credits
-
-School project — Spletno programiranje  
-Based on the original Dice Race by [leonilc07](https://github.com/leonilc07/dirka)
+* **PHP**: Logika igre, seje, meti kocke
+* **HTML / CSS**: Struktura in luksuzno oblikovanje
+* **JavaScript**: SweetAlert dialoška okna, učinki delcev
+* **Google Fonts**: Cormorant Garamond + Montserrat
