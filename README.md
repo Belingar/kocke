@@ -18,7 +18,7 @@ A redesigned with a prestige aesthetic: dark backgrounds, gold accents, champagn
 1. Clone into your `htdocs` folder:
 
 ```
-C:\xampp\htdocs\luxury-dice\
+C:\xampp\htdocs\kocke\
 ```
 
 2. Start **Apache** in XAMPP Control Panel.
@@ -26,7 +26,7 @@ C:\xampp\htdocs\luxury-dice\
 3. Open your browser and navigate to:
 
 ```
-http://localhost/luxury-dice/index.php
+http://localhost/kocke/index.php
 ```
 
 ---
