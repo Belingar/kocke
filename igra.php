@@ -6,15 +6,11 @@ if (isset($_POST['ime1'])) {
     header('Location: index.php?napaka=1');
     exit;
   }
-  $runde = intval($_POST['runde']);
-  if ($runde < 1) $runde = 1;
-  if ($runde > 20) $runde = 20;
 
   $_SESSION['ime1'] = trim($_POST['ime1']);
   $_SESSION['ime2'] = trim($_POST['ime2']);
   $_SESSION['ime3'] = trim($_POST['ime3']);
   $_SESSION['kocke'] = intval($_POST['kocke']);
-  $_SESSION['runde'] = $runde;
   $_SESSION['tocke1'] = 0;
   $_SESSION['tocke2'] = 0;
   $_SESSION['tocke3'] = 0;
@@ -26,6 +22,8 @@ if (isset($_POST['ime1'])) {
   $_SESSION['zadnje_kocke2'] = array();
   $_SESSION['zadnje_kocke3'] = array();
 }
+
+define('CILJ', 100); // points needed to win
 
 if (isset($_POST['vrzi'])) {
   $kocke = $_SESSION['kocke'];
@@ -55,24 +53,24 @@ $ime1 = $_SESSION['ime1'];
 $ime2 = $_SESSION['ime2'];
 $ime3 = $_SESSION['ime3'];
 $kocke = $_SESSION['kocke'];
-$runde = $_SESSION['runde'];
 $tocke1 = $_SESSION['tocke1'];
 $tocke2 = $_SESSION['tocke2'];
 $tocke3 = $_SESSION['tocke3'];
 $trenutna_runda = $_SESSION['trenutna_runda'];
-$max_tocke = $runde * $kocke * 6;
 
-function pozicija($tocke, $max_tocke) {
-  if ($max_tocke == 0) return 2;
-  $p = ($tocke / $max_tocke) * 78;
-  if ($p > 78) $p = 78;
-  return $p + 2;
+// First to CILJ (100) points wins. Anyone who crosses on the same roll ties.
+$igra_koncana = ($tocke1 >= CILJ || $tocke2 >= CILJ || $tocke3 >= CILJ);
+
+function fill_odstotek($tocke) {
+  $p = ($tocke / CILJ) * 100;
+  if ($p > 100) $p = 100;
+  if ($p < 0) $p = 0;
+  return round($p, 1);
 }
 
-$poz1 = pozicija($tocke1, $max_tocke);
-$poz2 = pozicija($tocke2, $max_tocke);
-$poz3 = pozicija($tocke3, $max_tocke);
-$igra_koncana = ($trenutna_runda > $runde);
+$poz1 = fill_odstotek($tocke1);
+$poz2 = fill_odstotek($tocke2);
+$poz3 = fill_odstotek($tocke3);
 ?>
 <!DOCTYPE html>
 <html lang="sl">
@@ -81,6 +79,7 @@ $igra_koncana = ($trenutna_runda > $runde);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Le Grand Dé — The Roll</title>
   <link rel="stylesheet" href="css/igra.css">
+  <link rel="icon" type="image/png" href="img/ikona.png">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -91,10 +90,10 @@ $igra_koncana = ($trenutna_runda > $runde);
   </header>
 
   <?php if ($igra_koncana): ?>
-    <div class="runda-info finale">✦ &nbsp; The Final Roll Has Been Cast &nbsp; ✦</div>
+    <div class="runda-info finale">✦ &nbsp; A Champion Has Reached <?php echo CILJ; ?> &nbsp; ✦</div>
   <?php else: ?>
     <div class="runda-info">
-      Round &nbsp;<span class="runda-num"><?php echo $trenutna_runda; ?></span>&nbsp; of &nbsp;<span class="runda-num"><?php echo $runde; ?></span>
+      First to &nbsp;<span class="runda-num"><?php echo CILJ; ?></span>&nbsp; points claims the honour
     </div>
   <?php endif; ?>
 
@@ -105,23 +104,36 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="player-name"><?php echo htmlspecialchars($ime1); ?></div>
       <div class="score-display">
         <span class="score-val"><?php echo $tocke1; ?></span>
-        <span class="score-max">/ <?php echo $max_tocke; ?></span>
+        <span class="score-max">/ <?php echo CILJ; ?></span>
       </div>
 
-      <div class="track-wrap">
-        <div class="track-finish">⬛</div>
-        <div class="track">
-          <div class="token token-1" style="left:<?php echo $poz1; ?>%">
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="20" cy="32" rx="14" ry="5" fill="rgba(0,0,0,0.3)"/>
-              <rect x="4" y="14" width="32" height="16" rx="8" fill="#C9A84C"/>
-              <rect x="10" y="8" width="20" height="12" rx="5" fill="#D4AF5A"/>
-              <circle cx="11" cy="30" r="4" fill="#1a1a1a"/><circle cx="11" cy="30" r="2" fill="#888"/>
-              <circle cx="29" cy="30" r="4" fill="#1a1a1a"/><circle cx="29" cy="30" r="2" fill="#888"/>
-              <rect x="6" y="18" width="8" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
-            </svg>
-          </div>
-        </div>
+      <div class="goblet-wrap">
+        <div class="goblet-fill-label"><?php echo $poz1; ?>%</div>
+        <svg class="goblet goblet-gold" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="cupClip1">
+              <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z"/>
+            </clipPath>
+            <linearGradient id="liquid1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F5E6B0"/>
+              <stop offset="100%" stop-color="#C9A84C"/>
+            </linearGradient>
+          </defs>
+          <!-- liquid (clipped to cup), height driven by fill % -->
+          <g clip-path="url(#cupClip1)">
+            <rect class="liquid" x="20" y="<?php echo 96 - ($poz1 * 0.72); ?>"
+                  width="80" height="<?php echo ($poz1 * 0.72) + 4; ?>" fill="url(#liquid1)"/>
+            <rect class="liquid-shine" x="20" y="<?php echo 96 - ($poz1 * 0.72); ?>"
+                  width="80" height="5" fill="rgba(255,255,255,0.35)"/>
+          </g>
+          <!-- cup outline -->
+          <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z" fill="none" stroke="#C9A84C" stroke-width="2.5"/>
+          <ellipse cx="60" cy="24" rx="32" ry="6" fill="none" stroke="#E2C97E" stroke-width="2.5"/>
+          <!-- stem & base -->
+          <rect x="55" y="96" width="10" height="44" rx="3" fill="#C9A84C"/>
+          <ellipse cx="60" cy="146" rx="30" ry="7" fill="#8A6825"/>
+          <ellipse cx="60" cy="143" rx="30" ry="6" fill="#C9A84C"/>
+        </svg>
       </div>
 
       <div class="history-box">
@@ -138,10 +150,12 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="dice-area">
         <?php if (count($_SESSION['zadnje_kocke1']) > 0): ?>
           <?php foreach ($_SESSION['zadnje_kocke1'] as $v): ?>
-            <img src="img/dice/dice<?php echo $v; ?>.gif" alt="<?php echo $v; ?>" class="kocka-slika">
+            <div class="luxury-die" data-value="<?php echo $v; ?>">
+              <?php for ($p = 0; $p < $v; $p++): ?><div class="pip"></div><?php endfor; ?>
+            </div>
           <?php endforeach; ?>
         <?php else: ?>
-          <img src="img/dice/dice-anim.gif" alt="roll" class="kocka-slika kocka-idle">
+          <span class="dice-waiting">Awaiting the roll…</span>
         <?php endif; ?>
       </div>
     </div>
@@ -151,23 +165,33 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="player-name"><?php echo htmlspecialchars($ime2); ?></div>
       <div class="score-display">
         <span class="score-val"><?php echo $tocke2; ?></span>
-        <span class="score-max">/ <?php echo $max_tocke; ?></span>
+        <span class="score-max">/ <?php echo CILJ; ?></span>
       </div>
 
-      <div class="track-wrap">
-        <div class="track-finish">⬛</div>
-        <div class="track">
-          <div class="token token-2" style="left:<?php echo $poz2; ?>%">
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="20" cy="32" rx="14" ry="5" fill="rgba(0,0,0,0.3)"/>
-              <rect x="4" y="14" width="32" height="16" rx="8" fill="#8A8A8A"/>
-              <rect x="10" y="8" width="20" height="12" rx="5" fill="#AEAEAE"/>
-              <circle cx="11" cy="30" r="4" fill="#1a1a1a"/><circle cx="11" cy="30" r="2" fill="#888"/>
-              <circle cx="29" cy="30" r="4" fill="#1a1a1a"/><circle cx="29" cy="30" r="2" fill="#888"/>
-              <rect x="6" y="18" width="8" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
-            </svg>
-          </div>
-        </div>
+      <div class="goblet-wrap">
+        <div class="goblet-fill-label"><?php echo $poz2; ?>%</div>
+        <svg class="goblet goblet-silver" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="cupClip2">
+              <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z"/>
+            </clipPath>
+            <linearGradient id="liquid2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F0F0F0"/>
+              <stop offset="100%" stop-color="#AEAEAE"/>
+            </linearGradient>
+          </defs>
+          <g clip-path="url(#cupClip2)">
+            <rect class="liquid" x="20" y="<?php echo 96 - ($poz2 * 0.72); ?>"
+                  width="80" height="<?php echo ($poz2 * 0.72) + 4; ?>" fill="url(#liquid2)"/>
+            <rect class="liquid-shine" x="20" y="<?php echo 96 - ($poz2 * 0.72); ?>"
+                  width="80" height="5" fill="rgba(255,255,255,0.45)"/>
+          </g>
+          <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z" fill="none" stroke="#AEAEAE" stroke-width="2.5"/>
+          <ellipse cx="60" cy="24" rx="32" ry="6" fill="none" stroke="#D8D8D8" stroke-width="2.5"/>
+          <rect x="55" y="96" width="10" height="44" rx="3" fill="#AEAEAE"/>
+          <ellipse cx="60" cy="146" rx="30" ry="7" fill="#666"/>
+          <ellipse cx="60" cy="143" rx="30" ry="6" fill="#AEAEAE"/>
+        </svg>
       </div>
 
       <div class="history-box">
@@ -184,10 +208,12 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="dice-area">
         <?php if (count($_SESSION['zadnje_kocke2']) > 0): ?>
           <?php foreach ($_SESSION['zadnje_kocke2'] as $v): ?>
-            <img src="img/dice/dice<?php echo $v; ?>.gif" alt="<?php echo $v; ?>" class="kocka-slika">
+            <div class="luxury-die" data-value="<?php echo $v; ?>">
+              <?php for ($p = 0; $p < $v; $p++): ?><div class="pip"></div><?php endfor; ?>
+            </div>
           <?php endforeach; ?>
         <?php else: ?>
-          <img src="img/dice/dice-anim.gif" alt="roll" class="kocka-slika kocka-idle">
+          <span class="dice-waiting">Awaiting the roll…</span>
         <?php endif; ?>
       </div>
     </div>
@@ -197,23 +223,33 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="player-name"><?php echo htmlspecialchars($ime3); ?></div>
       <div class="score-display">
         <span class="score-val"><?php echo $tocke3; ?></span>
-        <span class="score-max">/ <?php echo $max_tocke; ?></span>
+        <span class="score-max">/ <?php echo CILJ; ?></span>
       </div>
 
-      <div class="track-wrap">
-        <div class="track-finish">⬛</div>
-        <div class="track">
-          <div class="token token-3" style="left:<?php echo $poz3; ?>%">
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="20" cy="32" rx="14" ry="5" fill="rgba(0,0,0,0.3)"/>
-              <rect x="4" y="14" width="32" height="16" rx="8" fill="#7B4F2E"/>
-              <rect x="10" y="8" width="20" height="12" rx="5" fill="#9C6235"/>
-              <circle cx="11" cy="30" r="4" fill="#1a1a1a"/><circle cx="11" cy="30" r="2" fill="#888"/>
-              <circle cx="29" cy="30" r="4" fill="#1a1a1a"/><circle cx="29" cy="30" r="2" fill="#888"/>
-              <rect x="6" y="18" width="8" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
-            </svg>
-          </div>
-        </div>
+      <div class="goblet-wrap">
+        <div class="goblet-fill-label"><?php echo $poz3; ?>%</div>
+        <svg class="goblet goblet-bronze" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="cupClip3">
+              <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z"/>
+            </clipPath>
+            <linearGradient id="liquid3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C08050"/>
+              <stop offset="100%" stop-color="#9C6235"/>
+            </linearGradient>
+          </defs>
+          <g clip-path="url(#cupClip3)">
+            <rect class="liquid" x="20" y="<?php echo 96 - ($poz3 * 0.72); ?>"
+                  width="80" height="<?php echo ($poz3 * 0.72) + 4; ?>" fill="url(#liquid3)"/>
+            <rect class="liquid-shine" x="20" y="<?php echo 96 - ($poz3 * 0.72); ?>"
+                  width="80" height="5" fill="rgba(255,255,255,0.30)"/>
+          </g>
+          <path d="M28 24 Q22 92 56 96 L64 96 Q98 92 92 24 Z" fill="none" stroke="#9C6235" stroke-width="2.5"/>
+          <ellipse cx="60" cy="24" rx="32" ry="6" fill="none" stroke="#C08050" stroke-width="2.5"/>
+          <rect x="55" y="96" width="10" height="44" rx="3" fill="#9C6235"/>
+          <ellipse cx="60" cy="146" rx="30" ry="7" fill="#5C3016"/>
+          <ellipse cx="60" cy="143" rx="30" ry="6" fill="#9C6235"/>
+        </svg>
       </div>
 
       <div class="history-box">
@@ -230,10 +266,12 @@ $igra_koncana = ($trenutna_runda > $runde);
       <div class="dice-area">
         <?php if (count($_SESSION['zadnje_kocke3']) > 0): ?>
           <?php foreach ($_SESSION['zadnje_kocke3'] as $v): ?>
-            <img src="img/dice/dice<?php echo $v; ?>.gif" alt="<?php echo $v; ?>" class="kocka-slika">
+            <div class="luxury-die" data-value="<?php echo $v; ?>">
+              <?php for ($p = 0; $p < $v; $p++): ?><div class="pip"></div><?php endfor; ?>
+            </div>
           <?php endforeach; ?>
         <?php else: ?>
-          <img src="img/dice/dice-anim.gif" alt="roll" class="kocka-slika kocka-idle">
+          <span class="dice-waiting">Awaiting the roll…</span>
         <?php endif; ?>
       </div>
     </div>
@@ -247,7 +285,7 @@ $igra_koncana = ($trenutna_runda > $runde);
       <form action="igra.php" method="POST">
         <input type="hidden" name="vrzi" value="1">
         <button type="submit" class="gumb gumb-primary">
-          Roll Round <?php echo $trenutna_runda; ?> &nbsp;⚄
+          Roll the Dice &nbsp;⚄
         </button>
       </form>
     <?php endif; ?>

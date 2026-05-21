@@ -16,7 +16,16 @@
   <div class="stars" id="stars"></div>
 
   <header class="site-header">
-    <div class="logo-crest">✦</div>
+    <!-- Credits star (above the title, hover to reveal) -->
+    <div class="credits-wrap">
+      <span class="credits-star logo-crest">✦</span>
+      <div class="credits-tooltip">
+        <div class="credits-tooltip-title">Le Grand Dé</div>
+        <p class="credits-line">Prestige Roll Edition</p>
+        <p style="margin-top:8px;">School project<br>Spletno programiranje</p>
+        <p style="margin-top:6px;">Created by<br>Belingar Urh</p>
+      </div>
+    </div>
     <h1 class="logo-text">Le Grand Dé</h1>
     <p class="logo-sub">PRESTIGE ROLL</p>
   </header>
@@ -76,7 +85,7 @@
 
         <div class="nastavitve-vrstica">
           <div class="nastavitev-blok">
-            <label class="guest-label" for="kocke">Dice per Round</label>
+            <label class="guest-label" for="kocke">Dice per Roll</label>
             <select id="kocke" name="kocke" class="vnosno-polje select-field">
               <?php
                 for ($i = 1; $i <= 6; $i++) {
@@ -88,12 +97,8 @@
           </div>
 
           <div class="nastavitev-blok">
-            <label class="guest-label" for="runde">Number of Rounds</label>
-            <input
-              type="number" id="runde" name="runde"
-              class="vnosno-polje"
-              min="1" max="20" value="5"
-            >
+            <label class="guest-label">Winning Goal</label>
+            <div class="vnosno-polje goal-display">First to 100 points</div>
           </div>
         </div>
 

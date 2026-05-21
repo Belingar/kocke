@@ -1,85 +1,103 @@
 # 🎲 Le Grand Dé — Prestige Roll
 
-PHP igra metanja kocke s tematiko prestiža in luksuza. Trije gosti tekmujejo v več krogih metanja kocke; tisti, ki zbere največ točk, si prisluži čast večera.
+A luxury-themed PHP dice-race game. Three guests compete by rolling dice each turn; the first to reach 100 points claims the honour of the evening. If two or three cross 100 on the same roll, they share the honour.
+
+A redesigned with a prestige aesthetic: dark backgrounds, gold accents, champagne typography, and an elegant podium results screen.
 
 ---
 
-## Zahteve
+## Requirements
 
-* **XAMPP** (Apache + PHP)
-* **Brskalnik** (Chrome, Firefox, Edge…)
+- XAMPP (Apache + PHP)
+- Browser (Chrome, Firefox, Edge…)
 
 ---
 
-## Namestitev
+## Installation
 
-1. Kloniraj projekt v svojo `htdocs` mapo:
+1. Clone into your `htdocs` folder:
+
+```
 C:\xampp\htdocs\luxury-dice\
+```
 
-2. Zaženi **Apache** v XAMPP nadzorni plošči.
-3. Odpri brskalnik in obišči:
+2. Start **Apache** in XAMPP Control Panel.
+
+3. Open your browser and navigate to:
+
+```
 http://localhost/luxury-dice/index.php
-
+```
 
 ---
 
-## Struktura datotek
+## File Structure
+
 ```
 luxury-dice/
-├── index.php          ← Registracija gostov in nastavitve igre
-├── igra.php           ← Met kocke — stran z igro v živo
-├── rezultati.php      ← Stopničke in časti
+├── index.php          ← Guest registry & game settings
+├── igra.php           ← The roll — live game page
+├── rezultati.php      ← Honours podium
 │
 ├── css/
-│   ├── style.css      ← Stili za začetno stran
-│   ├── igra.css       ← Stili za igralno stran
-│   └── rezultati.css  ← Stili za stran z rezultati
+│   ├── style.css      ← Index page styles
+│   ├── igra.css       ← Game page styles
+│   └── rezultati.css  ← Results page styles
 │
 └── js/
-├── dialogi.js     ← SweetAlert modalna okna (pravila, zasluge)
-└── sparkles.js    ← Animacija zlatih delcev na strani z rezultati
+    ├── dialogi.js     ← SweetAlert modals (rules, credits)
+    └── sparkles.js    ← Gold particle animation on results page
 ```
 
 ---
 
-## Kako deluje
+## How It Works
 
-### 1. stran — Registracija gostov
-* Vnesite imena za 3 goste.
-* Izberite število kock (1–6) in število krogov (1–20).
-* Kliknite **Begin the Game** (Začni igro).
+### Page 1 — Guest Registry
+- Enter names for 3 guests
+- Choose dice count (1–6) per roll
+- Goal is fixed: first to 100 points wins
+- Click **Begin the Game**
 
-### 2. stran — Met kocke
-* Vsak krog: kliknite **Roll Round X** (Vrzi za krog X).
-* PHP vrže kocke za vse tri goste in prikaže rezultate.
-* Elegantni avtomobilski žetoni se premikajo po progi.
-* Zgodovina krogov se beleži za vsakega gosta posebej.
-* Ko so vsi krogi zaključeni: **View Final Results** (Ogled končnih rezultatov).
+### Page 2 — The Roll
+- Click **Roll the Dice** each turn
+- PHP rolls dice for all three guests and displays results
+- Each guest's goblet fills toward the 100-point goal
+- Roll history is logged per guest
+- The first guest to reach 100 ends the game: **View Final Results**
 
-### 3. stran — Časti
-* Gosti se razvrstijo na stopničke (zlata / srebrna / bronasta).
-* Animacija zlatih delcev napolni zaslon.
-* Izenačeni rezultati se razrešijo naključno.
-* **Play Again** (Igraj ponovno) ponastavi sejo.
+### Page 3 — Honours
+- Guests placed on a tiered podium (gold / silver / bronze)
+- Gold particle animation fills the screen
+- Ties at 100+ become shared (co-winner) honours
+- **Play Again** resets the session
 
 ---
 
-## Sejne spremenljivke (Session Variables)
+## Session Variables
 
-| Spremenljivka | Vsebina |
+| Variable | Contents |
 |---|---|
-| `$_SESSION['ime1']` | Ime 1. gosta |
-| `$_SESSION['kocke']` | Število kock na krog |
-| `$_SESSION['runde']` | Skupno število krogov |
-| `$_SESSION['tocke1']` | Skupne točke 1. gosta |
-| `$_SESSION['trenutna_runda']` | Številka trenutnega kroga |
-| `$_SESSION['zgodovina1']` | Zgodovina metov po krogih za 1. gosta |
+| `$_SESSION['ime1']` | Guest 1 name |
+| `$_SESSION['kocke']` | Dice per round |
+| `$_SESSION['tocke1']` | Guest 1 cumulative score |
+| `$_SESSION['trenutna_runda']` | Current round number |
+| `$_SESSION['zgodovina1']` | Guest 1 round-by-round history |
 
 ---
 
-## Tehnologije
+## Technologies
 
-* **PHP**: Logika igre, seje, meti kocke
-* **HTML / CSS**: Struktura in luksuzno oblikovanje
-* **JavaScript**: SweetAlert dialoška okna, učinki delcev
-* **Google Fonts**: Cormorant Garamond + Montserrat
+| Technology | Use |
+|---|---|
+| PHP | Game logic, sessions, dice rolls |
+| HTML / CSS | Structure & luxury styling |
+| JavaScript | SweetAlert dialogs, particle effects |
+| Google Fonts | Cormorant Garamond + Montserrat |
+
+---
+
+## Credits
+
+School project — Spletno programiranje  
+Created by Belingar Urh

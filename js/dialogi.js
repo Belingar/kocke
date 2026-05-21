@@ -28,7 +28,7 @@ document.getElementById('gumb-krediti').addEventListener('click', function () {
         <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#C9A84C;margin-bottom:8px;">Le Grand Dé</p>
         <p>Prestige Roll Edition</p>
         <p style="color:#8A8478;margin-top:12px;font-size:0.72rem;letter-spacing:0.15em;">A school project — Spletno programiranje</p>
-        <p style="color:#8A8478;font-size:0.72rem;letter-spacing:0.15em;">Based on the original Dice Race by leonilc07</p>
+        <p style="color:#8A8478;font-size:0.72rem;letter-spacing:0.15em;">Created by Belingar Urh</p>
       </div>
     `,
     background: '#18181E',
